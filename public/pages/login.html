@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - 아무 말 대잔치</title>
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <h1 class="logo">아무 말 대잔치</h1>
+    </header>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="main-container">
+        <div class="login-box">
+            <h2 class="login-title">로그인</h2>
+            
+            <!-- 로그인 폼 -->
+            <form id="loginForm">
+                <!-- 이메일 입력 -->
+                <div class="form-group">
+                    <label for="email">이메일</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="이메일을 입력하세요"
+                        required
+                    >
+                </div>
+
+                <!-- 비밀번호 입력 -->
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="비밀번호를 입력하세요"
+                        required
+                    >
+                    <p class="helper-text">* helper text</p>
+                </div>
+
+                <!-- 로그인 버튼 -->
+                <button type="submit" class="btn-login">로그인</button>
+            </form>
+
+            <!-- 회원가입 링크 -->
+            <a href="signup.html" class="link-signup">회원가입</a>
+        </div>
+    </main>
+
+    <!-- ... HTML 내용 ... -->
+    <!-- ⚠️ 중요: 순서가 매우 중요합니다! -->
+    <!-- 1. 설정 파일 (제일 먼저) -->
+    <script src="../js/config/constants.js"></script>
+    
+    <!-- 2. 유틸리티 함수들 (다음) -->
+    <script src="../js/utils/auth.js"></script>
+    <script src="../js/utils/validation.js"></script>
+    <script src="../js/utils/api.js"></script>
+    
+    <!-- 3. 페이지 전용 코드 (마지막) -->
+    <script src="../js/pages/login.js"></script>
+
+    <!-- 자바스크립트 파일 (나중에 추가) -->
+    <script src="../js/login.js"></script>
+</body>
+</html>

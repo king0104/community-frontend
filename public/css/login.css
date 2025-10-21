@@ -1,0 +1,134 @@
+/* 전체 페이지 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 헤더 스타일 */
+.header {
+    background-color: white;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 메인 컨테이너 */
+.main-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* 로그인 박스 */
+.login-box {
+    /* background-color: white; */
+    padding: 40px;
+    border-radius: 8px;
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-title {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* 폼 그룹 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #7F6AEE;
+}
+
+/* 헬퍼 텍스트 */
+.helper-text {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #999;
+}
+
+/* 로그인 버튼 */
+.btn-login {
+    width: 100%;
+    padding: 14px;
+    background-color: #7F6AEE;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #6952CC;
+}
+
+.btn-login:active {
+    background-color: #5A42B0;
+}
+
+/* 회원가입 링크 */
+.link-signup {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #7F6AEE;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.link-signup:hover {
+    text-decoration: underline;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+    .login-box {
+        padding: 30px 20px;
+    }
+    
+    .login-title {
+        font-size: 24px;
+    }
+}
