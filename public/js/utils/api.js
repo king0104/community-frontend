@@ -61,29 +61,13 @@ function apiUploadImage(file) {
 }
 
 /**
- * 게시글 목록 조회 API 호출
- * @returns {Promise} - fetch Promise
- */
-function apiGetPosts() {
-    const url = API_BASE_URL + API_ENDPOINTS.POSTS;
-    const token = getAccessToken();
-    
-    return fetch(url, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`  // 인증이 필요한 경우
-        }
-    });
-}
-
-/**
  * 내 정보 조회 API 호출
  * @returns {Promise} - fetch Promise
  */
 function apiGetMyInfo() {
     const url = API_BASE_URL + API_ENDPOINTS.MEMBER_ME;
     const token = getAccessToken();
-    
+
     return fetch(url, {
         method: 'GET',
         headers: {
@@ -94,17 +78,17 @@ function apiGetMyInfo() {
 
 /**
  * 게시글 목록 조회 API 호출
- * 
+ *
  * 백엔드 비유:
  * @GetMapping("/api/v1/posts")
  * public List<PostResponse> getPosts() { ... }
- * 
+ *
  * @returns {Promise<Response>} - fetch Promise
  */
 function apiGetPosts() {
     const url = API_BASE_URL + API_ENDPOINTS.POSTS;
     const token = getAccessToken();
-    
+
     return fetch(url, {
         method: 'GET',
         headers: {
