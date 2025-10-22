@@ -63,7 +63,7 @@ function handleLoginSuccess(response) {
     }
     
     alert(MESSAGES.LOGIN_SUCCESS);
-    window.location.href = 'posts.html';
+    window.location.href = 'posts';
 }
 
 /**
