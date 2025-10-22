@@ -1,0 +1,62 @@
+# ==========================
+# 📦 Node & npm
+# ==========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# ==========================
+# ⚙️ Build / Dist / Cache
+# ==========================
+dist/
+build/
+.cache/
+.temp/
+coverage/
+*.tsbuildinfo
+
+# ==========================
+# 💻 Environment
+# ==========================
+.env
+.env.local
+.env.development
+.env.production
+
+# ==========================
+# 🧩 IDE / OS
+# ==========================
+# VSCode
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ==========================
+# 🚫 Logs / Uploads
+# ==========================
+*.log
+logs/
+uploads/
+public/uploads/
+
+# ==========================
+# 🧰 Misc
+# ==========================
+# temporary or backup files
+*.bak
+*.tmp
+*.swp
+
+# test result folders
+coverage/
