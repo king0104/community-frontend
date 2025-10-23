@@ -10,9 +10,15 @@ const path = require('path');
 // Express 앱 생성
 const app = express();
 
-// 포트 번호 설정 (백엔드는 8080, 프론트엔드는 3001로 변경)
-// 3000번이 사용중이면 3001 사용
+// 포트 번호 설정 (백엔드는 8080, 프론트엔드는 3000)
 const PORT = 3000;
+
+// ============================================
+// 1. 정적 파일 제공 설정
+// ============================================
+// public 폴더의 파일들을 웹에서 접근 가능하게 만들기
+// 백엔드 비유: @Configuration으로 static 리소스 경로 설정
+app.use(express.static('public'));
 
 // ============================================
 // 1. 정적 파일 제공 설정
@@ -25,16 +31,18 @@ app.use(express.static('public'));
 // 2. 루트 경로 설정
 // ============================================
 // localhost:3000/ 접속 시 login.html 보여주기
-// 백엔드 비유: @GetMapping("/")
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'pages', 'login.html'));
 });
 
 // ============================================
-// 3. 각 페이지별 라우팅 설정 (선택사항)
+// 3. 각 페이지별 라우팅 설정
 // ============================================
-// 명시적으로 경로를 지정하고 싶다면 추가
 app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'login.html'));
+});
+
+app.get('/login.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'pages', 'login.html'));
 });
 
@@ -42,7 +50,15 @@ app.get('/signup', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'pages', 'signup.html'));
 });
 
+app.get('/signup.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'signup.html'));
+});
+
 app.get('/posts', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'posts.html'));
+});
+
+app.get('/posts.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'pages', 'posts.html'));
 });
 
@@ -50,12 +66,18 @@ app.get('/post-detail', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'pages', 'post-detail.html'));
 });
 
-app.get('/create-post.html', (req, res) => {
+app.get('/post-detail.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'post-detail.html'));
+});
+
+app.get('/create-post', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'pages', 'create-post.html'));
 });
 
+app.get('/create-post.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'create-post.html'));
+})
 
-// ============================================
 // 4. 서버 시작
 // ============================================
 // 백엔드 비유: public static void main() { SpringApplication.run(...) }
