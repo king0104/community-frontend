@@ -34,7 +34,14 @@ app.get('/', (req, res) => {
 // 3. 각 페이지별 라우팅 설정 (선택사항)
 // ============================================
 // 명시적으로 경로를 지정하고 싶다면 추가
+// ============================================
+// 3. 각 페이지별 라우팅 설정
+// ============================================
 app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'login.html'));
+});
+
+app.get('/login.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'pages', 'login.html'));
 });
 
@@ -42,7 +49,15 @@ app.get('/signup', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'pages', 'signup.html'));
 });
 
+app.get('/signup.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'signup.html'));
+});
+
 app.get('/posts', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'posts.html'));
+});
+
+app.get('/posts.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'pages', 'posts.html'));
 });
 
@@ -50,9 +65,17 @@ app.get('/post-detail', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'pages', 'post-detail.html'));
 });
 
-app.get('/create-post.html', (req, res) => {
+app.get('/post-detail.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'post-detail.html'));
+});
+
+app.get('/create-post', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'pages', 'create-post.html'));
 });
+
+app.get('/create-post.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'create-post.html'));
+})
 
 
 // ============================================
