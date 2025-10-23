@@ -36,13 +36,13 @@ function initEventListeners() {
     // 게시글 작성 버튼 클릭
     const btnCreatePost = document.getElementById('btnCreatePost');
     btnCreatePost.addEventListener('click', function() {
-        window.location.href = '/create-post';
+        window.location.href = 'create-post';
     });
-
+    
     // 프로필 아이콘 클릭
     const userProfile = document.getElementById('userProfile');
     userProfile.addEventListener('click', function() {
-        window.location.href = '/profile';
+        window.location.href = 'profile';
     });
 }
 
@@ -80,20 +80,30 @@ async function loadPosts() {
         if (!response.ok) {
             throw new Error('게시글 목록 조회 실패');
         }
-        
+
         // 4. JSON 데이터 파싱
-        const posts = await response.json();
-        console.log('📥 받은 게시글 데이터:', posts);
-        
-        // 5. 로딩 숨기기
+        const data = await response.json();
+        console.log('📥 받은 게시글 데이터:', data);
+
+        // ✅ PostListPageResponse 구조 반영
+        // ✅ 실제 posts 배열 꺼내기
+        const posts = data.posts || [];
+        const hasNext = data.hasNext;
+        const nextCursor = data.nextCursor;
+
         loading.style.display = 'none';
         
-        // 6. 데이터 확인
-        if (!posts || posts.length === 0) {
-            // 게시글이 없으면 "게시글 없음" 메시지 표시
+        // ✅ 게시글이 없을 경우 처리
+        if (posts.length === 0) {
+             // 게시글이 없으면 "게시글 없음" 메시지 표시
             noPosts.style.display = 'block';
             return;
         }
+
+        renderPosts(posts);
+        
+        // ✅ 다음 페이지 로딩 구현을 나중에 추가할 수 있음
+        console.log(`📜 다음 커서: ${nextCursor}, 다음 페이지 있음? ${hasNext}`);
         
         // 7. 게시글 카드 생성 및 추가
         renderPosts(posts);
@@ -145,15 +155,19 @@ function renderPosts(posts) {
 /**
  * 하나의 게시글 데이터로 HTML 카드 요소를 생성
  * 
- * 이 함수가 정적 HTML을 동적으로 만드는 핵심!
+ * 백엔드 응답 구조 (PostListResponse):
+ * {
+ *   id: 1,
+ *   title: "제목",
+ *   viewCount: 123,
+ *   likeCount: 10,
+ *   commentCount: 5,
+ *   createdAt: "2021-01-01T00:00:00",
+ *   memberNickname: "작성자",
+ *   memberProfileImageUrl: "https://..."
+ * }
  * 
- * 백엔드 비유:
- * Thymeleaf의 th:each 같은 역할
- * <div th:each="post : ${posts}">
- *   <h3 th:text="${post.title}"></h3>
- * </div>
- * 
- * @param {Object} post - 게시글 데이터 객체
+ * @param {Object} post - 게시글 데이터 객체 (PostListResponse)
  * @returns {HTMLElement} - 생성된 카드 요소
  */
 function createPostCard(post) {
@@ -163,11 +177,10 @@ function createPostCard(post) {
     
     // 2. 카드 클릭 시 상세 페이지로 이동
     card.addEventListener('click', function() {
-        window.location.href = `/post-detail?id=${post.id}`;
+        window.location.href = `post-detail.html?id=${post.id}`;
     });
     
-    // 3. 카드 내용 생성 (innerHTML 사용)
-    // innerHTML: 문자열로 HTML을 작성하면 실제 HTML 요소로 변환됨
+    // 3. 카드 내용 생성
     card.innerHTML = `
         <h3 class="post-title">${escapeHtml(post.title)}</h3>
         
@@ -179,8 +192,11 @@ function createPostCard(post) {
         
         <div class="post-footer">
             <div class="post-author">
-                <div class="author-profile"></div>
-                <span class="author-name">${escapeHtml(post.authorNickname || '익명')}</span>
+                ${post.memberProfileImageUrl 
+                    ? `<img src="${post.memberProfileImageUrl}" alt="프로필" class="author-profile" />`
+                    : '<div class="author-profile"></div>'
+                }
+                <span class="author-name">${escapeHtml(post.memberNickname || '익명')}</span>
             </div>
             <span class="post-date">${formatDate(post.createdAt)}</span>
         </div>
