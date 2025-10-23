@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "프론트엔드 디버깅 (Chrome)",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/public",
+      "sourceMaps": true,
+      "trace": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Express 서버 디버깅",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/server.js",
+      "console": "integratedTerminal"
+    }
+  ]
+}

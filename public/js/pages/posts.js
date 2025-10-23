@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 로그인 확인 (로그인 안 되어 있으면 로그인 페이지로)
     if (!isLoggedIn()) {
         alert('로그인이 필요합니다.');
-        window.location.href = 'login.html';
+        window.location.href = '/login';
         return;
     }
     
@@ -36,13 +36,13 @@ function initEventListeners() {
     // 게시글 작성 버튼 클릭
     const btnCreatePost = document.getElementById('btnCreatePost');
     btnCreatePost.addEventListener('click', function() {
-        window.location.href = 'create-post.html';
+        window.location.href = '/create-post';
     });
-    
+
     // 프로필 아이콘 클릭
     const userProfile = document.getElementById('userProfile');
     userProfile.addEventListener('click', function() {
-        window.location.href = 'profile.html';
+        window.location.href = '/profile';
     });
 }
 
@@ -163,7 +163,7 @@ function createPostCard(post) {
     
     // 2. 카드 클릭 시 상세 페이지로 이동
     card.addEventListener('click', function() {
-        window.location.href = `post-detail.html?id=${post.id}`;
+        window.location.href = `/post-detail?id=${post.id}`;
     });
     
     // 3. 카드 내용 생성 (innerHTML 사용)

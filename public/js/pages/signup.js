@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 이미 로그인되어 있으면 게시글 페이지로 이동
     if (isLoggedIn()) {
         console.log('이미 로그인되어 있습니다.');
-        window.location.href = 'posts.html';
+        window.location.href = '/posts';
         return;
     }
     
@@ -275,9 +275,9 @@ function handleSignupSuccess() {
     console.log('🎉 회원가입 성공!');
     
     alert(MESSAGES.SIGNUP_SUCCESS);
-    
+
     // 로그인 페이지로 이동
-    window.location.href = 'login.html';
+    window.location.href = '/login';
 }
 
 
