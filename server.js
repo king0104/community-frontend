@@ -19,7 +19,14 @@ const PORT = 3000;
 // ============================================
 // public 폴더의 파일들을 웹에서 접근 가능하게 만들기
 // 백엔드 비유: @Configuration으로 static 리소스 경로 설정
-app.use(express.static('public'));
+// app.use(express.static('public'));
+app.use(express.static('public', {
+  etag: false,
+  lastModified: false,
+  setHeaders: (res, path) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  }
+}));
 
 // ============================================
 // 2. 루트 경로 설정
@@ -76,6 +83,16 @@ app.get('/create-post', (req, res) => {
 app.get('/create-post.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'pages', 'create-post.html'));
 })
+
+// edit-post 라우팅 추가 (create-post 아래에 추가)
+
+app.get('/edit-post', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'edit-post.html'));
+});
+
+app.get('/edit-post.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'edit-post.html'));
+});
 
 
 // ============================================

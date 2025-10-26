@@ -55,16 +55,13 @@ function handleLogin(event) {
  */
 function handleLoginSuccess(response) {
     console.log('✅ 로그인 성공');
-
+    
     // Access Token 저장 (auth.js의 함수 사용)
     const token = response.headers.get('access');
-    debugger;  // 🔍 디버깅: token 값 확인
-
     if (token) {
         saveAccessToken(token);
-        debugger;  // 🔍 디버깅: localStorage 저장 후 확인
     }
-
+    
     alert(MESSAGES.LOGIN_SUCCESS);
     window.location.href = '/posts';
 }

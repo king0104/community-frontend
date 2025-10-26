@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시글 작성 - 아무 말 대잔치</title>
+    <title>게시글 수정 - 아무 말 대잔치</title>
+    <!-- create-post.css를 재사용 (스타일이 거의 같음) -->
     <link rel="stylesheet" href="../css/create-post.css">
 </head>
 <body>
@@ -26,10 +27,22 @@
 
     <!-- 메인 컨텐츠 -->
     <main class="main-container">
-        <h2 class="page-title">게시글 작성</h2>
+        <!-- 제목만 '게시글 수정'으로 변경 -->
+        <h2 class="page-title">게시글 수정</h2>
         
-        <!-- 게시글 작성 폼 -->
-        <form id="createPostForm" class="post-form">
+        <!-- 로딩 표시 -->
+        <div class="loading" id="loading">
+            <p>게시글을 불러오는 중...</p>
+        </div>
+        
+        <!-- 에러 메시지 -->
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <p>게시글을 불러오는데 실패했습니다.</p>
+            <button onclick="history.back()">돌아가기</button>
+        </div>
+        
+        <!-- 게시글 수정 폼 (처음엔 숨김 상태) -->
+        <form id="editPostForm" class="post-form" style="display: none;">
             
             <!-- 제목 입력 -->
             <div class="form-group">
@@ -76,7 +89,7 @@
                     <!-- 선택된 파일명 표시 -->
                     <span class="file-name" id="fileName">파일을 선택해주세요</span>
                 </div>
-                <p class="helper-text">* helper text</p>
+                <p class="helper-text">* 이미지 변경은 선택사항입니다</p>
                 
                 <!-- 이미지 미리보기 -->
                 <div class="image-preview" id="imagePreview" style="display: none;">
@@ -85,8 +98,8 @@
                 </div>
             </div>
 
-            <!-- 완료 버튼 -->
-            <button type="submit" class="btn-submit" id="btnSubmit">완료</button>
+            <!-- 수정 완료 버튼 -->
+            <button type="submit" class="btn-submit" id="btnSubmit">수정 완료</button>
         </form>
     </main>
 
@@ -95,6 +108,7 @@
     <script src="../js/utils/auth.js"></script>
     <script src="../js/utils/validation.js"></script>
     <script src="../js/utils/api.js"></script>
-    <script src="../js/pages/create-post.js"></script>
+    <!-- 게시글 수정 전용 JavaScript -->
+    <script src="../js/pages/edit-post.js"></script>
 </body>
 </html>

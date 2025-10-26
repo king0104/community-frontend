@@ -1,4 +1,8 @@
-/* 전체 페이지 기본 스타일 */
+/* ============================================
+   게시글 상세 페이지 CSS (기획서 기준 수정본)
+   ============================================ */
+
+/* 전체 초기화 */
 * {
     margin: 0;
     padding: 0;
@@ -11,14 +15,17 @@ body {
     min-height: 100vh;
 }
 
-/* 헤더 스타일 */
+/* ============================================
+   헤더
+   ============================================ */
 .header {
     background-color: white;
-    padding: 20px;
+    padding: 20px 40px;
     border-bottom: 1px solid #e0e0e0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .btn-back {
@@ -26,21 +33,23 @@ body {
     border: none;
     font-size: 24px;
     cursor: pointer;
-    padding: 5px 10px;
+    padding: 8px 12px;
     color: #333;
+    border-radius: 4px;
+    transition: background-color 0.2s;
 }
 
 .btn-back:hover {
     background-color: #f0f0f0;
-    border-radius: 4px;
 }
 
 .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 24px;
     font-weight: bold;
     color: #333;
-    flex: 1;
-    text-align: center;
 }
 
 .user-profile {
@@ -56,96 +65,91 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 20px;
+    transition: background-color 0.3s;
 }
 
-/* 메인 컨테이너 */
+.profile-icon:hover {
+    background-color: #c0c0c0;
+}
+
+/* ============================================
+   메인 컨테이너
+   ============================================ */
 .main-container {
     max-width: 800px;
-    margin: 0 auto;
-    padding: 40px 20px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
-/* 로딩 & 에러 */
+/* ============================================
+   로딩 & 에러
+   ============================================ */
 .loading,
 .error-message {
     text-align: center;
-    padding: 40px;
+    padding: 60px 40px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+.loading p,
+.error-message p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
 .error-message button {
-    margin-top: 20px;
-    padding: 10px 20px;
+    padding: 12px 24px;
     background-color: #7F6AEE;
     color: white;
     border: none;
     border-radius: 4px;
+    font-size: 14px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-/* 게시글 상세 */
+.error-message button:hover {
+    background-color: #6952CC;
+}
+
+/* ============================================
+   게시글 상세 컨테이너
+   ============================================ */
 .post-detail {
     background-color: white;
-    padding: 40px;
+    padding: 50px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 게시글 헤더 */
-.post-header {
-    margin-bottom: 30px;
+/* ============================================
+   🔥 수정사항 1: 제목 & 수정/삭제 버튼 (같은 줄)
+   ============================================ */
+.post-title-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    gap: 20px;
 }
 
 .post-title {
     font-size: 32px;
-    margin-bottom: 20px;
+    font-weight: bold;
     color: #333;
     line-height: 1.4;
+    word-break: keep-all;
+    flex: 1;
 }
 
-.post-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.author-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.author-profile {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background-color: #d3d3d3;
-    object-fit: cover;
-}
-
-.author-details {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.author-name {
-    font-weight: 600;
-    font-size: 16px;
-    color: #333;
-}
-
-.post-date {
-    font-size: 14px;
-    color: #999;
-}
-
-/* 수정/삭제 버튼 */
+/* 수정/삭제 버튼 (오른쪽 상단) */
 .post-actions {
     display: flex;
     gap: 10px;
+    flex-shrink: 0;
 }
 
 .btn-edit,
@@ -156,7 +160,9 @@ body {
     background-color: white;
     cursor: pointer;
     font-size: 14px;
+    font-weight: 500;
     transition: all 0.3s;
+    white-space: nowrap;
 }
 
 .btn-edit:hover {
@@ -171,41 +177,129 @@ body {
     border-color: #ff4444;
 }
 
-/* 구분선 */
+/* ============================================
+   작성자 정보 영역
+   ============================================ */
+.author-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.author-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.author-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #d3d3d3;
+    object-fit: cover;
+}
+
+.author-name {
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+}
+
+.post-date {
+    font-size: 14px;
+    color: #999;
+}
+
+/* ============================================
+   구분선
+   ============================================ */
 .divider {
     border: none;
     border-top: 1px solid #e0e0e0;
     margin: 30px 0;
 }
 
-/* 게시글 이미지 */
+/* ============================================
+   게시글 이미지
+   ============================================ */
 .post-images {
     margin-bottom: 30px;
+    text-align: center;
 }
 
 .post-image {
     width: 100%;
     max-height: 500px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    background-color: #f9f9f9;
 }
 
-/* 게시글 내용 */
+.post-image:last-child {
+    margin-bottom: 0;
+}
+
+/* ============================================
+   게시글 내용
+   ============================================ */
 .post-content {
     font-size: 16px;
     line-height: 1.8;
     color: #333;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     white-space: pre-wrap;
     word-wrap: break-word;
+    word-break: keep-all;
 }
 
-/* 통계 */
+/* ============================================
+   🔥 수정사항 2: 좋아요 버튼 추가
+   ============================================ */
+.like-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.btn-like {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 24px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.btn-like:hover {
+    background-color: #7F6AEE;
+    color: white;
+    border-color: #7F6AEE;
+}
+
+.btn-like.liked {
+    background-color: #7F6AEE;
+    color: white;
+    border-color: #7F6AEE;
+}
+
+.like-icon {
+    font-size: 20px;
+}
+
+/* ============================================
+   🔥 수정사항 3: 통계 (숫자가 위, 라벨이 아래)
+   ============================================ */
 .post-stats {
     display: flex;
+    justify-content: space-around;
     gap: 30px;
-    padding: 20px;
+    padding: 24px;
     background-color: #f9f9f9;
     border-radius: 8px;
     margin-bottom: 40px;
@@ -213,48 +307,54 @@ body {
 
 .stat-item {
     display: flex;
-    flex-direction: column;
+    flex-direction: column;  /* 세로 배치 */
     align-items: center;
     gap: 8px;
+    flex: 1;
 }
 
+/* 🔥 숫자가 위에 (크게, 굵게) */
+.stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+}
+
+/* 🔥 라벨이 아래에 (작게) */
 .stat-label {
     font-size: 14px;
     color: #666;
 }
 
-.stat-value {
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
-}
-
-/* 댓글 섹션 */
+/* ============================================
+   🔥 수정사항 4: 댓글 섹션 (기획서 기준)
+   ============================================ */
 .comments-section {
     margin-top: 40px;
-    padding-top: 40px;
-    border-top: 2px solid #e0e0e0;
 }
 
 .comments-title {
     font-size: 20px;
+    font-weight: 600;
     margin-bottom: 20px;
     color: #333;
 }
 
-/* 댓글 작성 */
+/* 댓글 작성 영역 */
 .comment-write {
     margin-bottom: 30px;
 }
 
 .comment-write textarea {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
     font-size: 14px;
-    resize: vertical;
     font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+    margin-bottom: 12px;
 }
 
 .comment-write textarea:focus {
@@ -262,30 +362,43 @@ body {
     border-color: #7F6AEE;
 }
 
+.comment-write textarea::placeholder {
+    color: #999;
+}
+
 .btn-comment-submit {
-    margin-top: 10px;
-    padding: 10px 20px;
+    float: right;
+    padding: 10px 24px;
     background-color: #7F6AEE;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s;
 }
 
 .btn-comment-submit:hover {
     background-color: #6952CC;
 }
 
+.btn-comment-submit:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
 /* 댓글 목록 */
 .comments-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
+    clear: both;
 }
 
+/* 개별 댓글 */
 .comment-item {
-    padding: 15px;
+    padding: 16px;
     background-color: #f9f9f9;
     border-radius: 8px;
 }
@@ -294,7 +407,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .comment-author {
@@ -308,11 +421,13 @@ body {
     height: 32px;
     border-radius: 50%;
     background-color: #d3d3d3;
+    object-fit: cover;
 }
 
 .comment-author-name {
     font-weight: 600;
     font-size: 14px;
+    color: #333;
 }
 
 .comment-date {
@@ -320,36 +435,108 @@ body {
     color: #999;
 }
 
+.comment-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-comment-edit,
+.btn-comment-delete {
+    padding: 4px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s;
+}
+
+.btn-comment-edit:hover {
+    background-color: #7F6AEE;
+    color: white;
+    border-color: #7F6AEE;
+}
+
+.btn-comment-delete:hover {
+    background-color: #ff4444;
+    color: white;
+    border-color: #ff4444;
+}
+
 .comment-content {
     font-size: 14px;
     line-height: 1.6;
     color: #333;
+    word-break: keep-all;
 }
 
-/* 반응형 디자인 */
+/* 댓글 없음 메시지 */
+.no-comments {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-size: 14px;
+}
+
+/* ============================================
+   반응형 디자인 (모바일)
+   ============================================ */
 @media (max-width: 768px) {
     .post-detail {
-        padding: 20px;
+        padding: 30px 20px;
+    }
+    
+    .post-title-section {
+        flex-direction: column;
     }
     
     .post-title {
         font-size: 24px;
     }
     
-    .post-meta {
+    .post-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+    
+    .author-section {
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
+        gap: 8px;
     }
     
     .post-stats {
-        flex-direction: column;
-        gap: 15px;
+        flex-direction: row;
+        gap: 20px;
     }
     
-    .stat-item {
-        flex-direction: row;
-        width: 100%;
-        justify-content: space-between;
+    .stat-value {
+        font-size: 24px;
+    }
+    
+    .stat-label {
+        font-size: 12px;
     }
 }
+
+/* ============================================
+   💡 주요 수정사항 요약
+   ============================================ */
+/*
+✅ 수정사항 1: 제목 & 수정/삭제 버튼
+   - 같은 줄에 배치 (flex)
+   - 버튼이 오른쪽 상단에 위치
+
+✅ 수정사항 2: 좋아요 버튼 추가
+   - 게시글 내용 아래 중앙 배치
+   - 호버 효과, 클릭 시 색상 변경
+
+✅ 수정사항 3: 통계 표시 방식
+   - 숫자가 위 (크고 굵게)
+   - 라벨이 아래 (작게)
+
+✅ 수정사항 4: 댓글 기능 완성
+   - 댓글 작성 영역
+   - 댓글 목록
+   - 댓글 수정/삭제 버튼
+*/

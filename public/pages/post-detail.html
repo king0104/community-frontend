@@ -7,19 +7,29 @@
     <link rel="stylesheet" href="../css/post-detail.css">
 </head>
 <body>
-    <!-- 헤더 -->
+    <!-- ============================================ -->
+    <!-- 헤더 영역 -->
+    <!-- ============================================ -->
     <header class="header">
+        <!-- 뒤로가기 버튼 -->
         <button class="btn-back" onclick="history.back()">
             <span>←</span>
         </button>
+        
+        <!-- 로고 -->
         <h1 class="logo">아무 말 대잔치</h1>
+        
+        <!-- 프로필 아이콘 -->
         <div class="user-profile" id="userProfile">
             <div class="profile-icon">👤</div>
         </div>
     </header>
 
-    <!-- 메인 컨텐츠 -->
+    <!-- ============================================ -->
+    <!-- 메인 컨텐츠 영역 -->
+    <!-- ============================================ -->
     <main class="main-container">
+        
         <!-- 로딩 표시 -->
         <div class="loading" id="loading">
             <p>게시글을 불러오는 중...</p>
@@ -31,64 +41,77 @@
             <button onclick="location.reload()">다시 시도</button>
         </div>
 
-        <!-- 게시글 상세 컨테이너 (JavaScript로 채워짐) -->
+        <!-- ============================================ -->
+        <!-- 게시글 상세 컨테이너 -->
+        <!-- ============================================ -->
         <article class="post-detail" id="postDetail" style="display: none;">
-            <!-- 게시글 헤더 -->
-            <div class="post-header">
+            
+            <!-- ========== 제목 & 수정/삭제 버튼 ========== -->
+            <div class="post-title-section">
                 <h1 class="post-title" id="postTitle"></h1>
                 
-                <!-- 작성자 & 수정/삭제 버튼 -->
-                <div class="post-meta">
-                    <div class="author-info">
-                        <img src="" alt="프로필" class="author-profile" id="authorProfile">
-                        <div class="author-details">
-                            <span class="author-name" id="authorName"></span>
-                            <span class="post-date" id="postDate"></span>
-                        </div>
-                    </div>
-                    
-                    <!-- 수정/삭제 버튼 (작성자만 보임) -->
-                    <div class="post-actions" id="postActions" style="display: none;">
-                        <button class="btn-edit" id="btnEdit">수정</button>
-                        <button class="btn-delete" id="btnDelete">삭제</button>
-                    </div>
+                <!-- 🔥 수정사항: 제목 옆 오른쪽에 수정/삭제 버튼 -->
+                <div class="post-actions" id="postActions" style="display: none;">
+                    <button class="btn-edit" id="btnEdit">수정</button>
+                    <button class="btn-delete" id="btnDelete">삭제</button>
+                </div>
+            </div>
+
+            <!-- ========== 작성자 정보 & 날짜 ========== -->
+            <div class="author-section">
+                <div class="author-info">
+                    <img src="" alt="프로필" class="author-profile" id="authorProfile">
+                    <span class="author-name" id="authorName"></span>
+                </div>
+                <span class="post-date" id="postDate"></span>
+            </div>
+
+            <!-- 구분선 -->
+            <hr class="divider">
+
+            <!-- ========== 게시글 이미지 ========== -->
+            <div class="post-images" id="postImages"></div>
+
+            <!-- ========== 게시글 내용 ========== -->
+            <div class="post-content" id="postContent"></div>
+
+            <!-- 🔥 수정사항: 좋아요 버튼 추가 -->
+            <div class="like-section">
+                <button class="btn-like" id="btnLike">
+                    <span class="like-icon">👍</span>
+                    <span class="like-text">좋아요</span>
+                </button>
+            </div>
+
+            <!-- ========== 통계 정보 (수정됨!) ========== -->
+            <!-- 🔥 기획서: 숫자가 위, 라벨이 아래 -->
+            <div class="post-stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="viewCount">0</span>
+                    <span class="stat-label">조회수</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="likeCount">0</span>
+                    <span class="stat-label">좋아요수</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="commentCount">0</span>
+                    <span class="stat-label">댓글수</span>
                 </div>
             </div>
 
             <!-- 구분선 -->
             <hr class="divider">
 
-            <!-- 게시글 이미지 (있으면 표시) -->
-            <div class="post-images" id="postImages"></div>
-
-            <!-- 게시글 내용 -->
-            <div class="post-content" id="postContent"></div>
-
-            <!-- 통계 -->
-            <div class="post-stats">
-                <div class="stat-item">
-                    <span class="stat-label">👁️ 조회수</span>
-                    <span class="stat-value" id="viewCount">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">❤️ 좋아요</span>
-                    <span class="stat-value" id="likeCount">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">💬 댓글</span>
-                    <span class="stat-value" id="commentCount">0</span>
-                </div>
-            </div>
-
-            <!-- 댓글 섹션 (추후 구현) -->
-            <section class="comments-section" id="commentsSection">
-                <h2 class="comments-title">댓글</h2>
+            <!-- ========== 댓글 영역 (기획서 기준으로 구현!) ========== -->
+            <div class="comments-section">
+                <h2 class="comments-title">댓글 남기기</h2>
                 
-                <!-- 댓글 작성 -->
+                <!-- 댓글 작성 영역 -->
                 <div class="comment-write">
                     <textarea 
-                        placeholder="댓글을 입력하세요" 
-                        id="commentInput"
+                        id="commentContent" 
+                        placeholder="댓글을 남겨주세요!"
                         rows="3"
                     ></textarea>
                     <button class="btn-comment-submit" id="btnCommentSubmit">
@@ -98,13 +121,16 @@
 
                 <!-- 댓글 목록 -->
                 <div class="comments-list" id="commentsList">
-                    <!-- JavaScript로 댓글 추가 -->
+                    <!-- JavaScript로 동적으로 채워짐 -->
                 </div>
-            </section>
+            </div>
+            
         </article>
     </main>
 
-    <!-- ⚠️ 순서 중요! -->
+    <!-- ============================================ -->
+    <!-- JavaScript 파일들 (순서 중요!) -->
+    <!-- ============================================ -->
     <script src="../js/config/constants.js"></script>
     <script src="../js/utils/auth.js"></script>
     <script src="../js/utils/validation.js"></script>

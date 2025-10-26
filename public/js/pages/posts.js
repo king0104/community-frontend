@@ -30,6 +30,31 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================
+// ✅ 뒤로가기 감지 - 데이터 자동 새로고침
+// ============================================
+/**
+ * 브라우저의 뒤로가기/앞으로가기로 페이지에 돌아왔을 때 실행
+ * 
+ * pageshow 이벤트:
+ * - 페이지가 화면에 표시될 때마다 발생
+ * - event.persisted: 브라우저 캐시에서 페이지를 복원했는지 여부
+ *   true = 뒤로가기로 돌아옴 (캐시된 페이지)
+ *   false = 새로 로드됨
+ * 
+ * 사용 시나리오:
+ * 1. 게시글 목록 페이지 진입
+ * 2. 게시글 클릭 → 상세 페이지 이동
+ * 3. 뒤로가기 클릭 → pageshow 이벤트 발생
+ * 4. loadPosts() 실행 → 업데이트된 데이터 표시
+ */
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        console.log('🔙 뒤로가기로 페이지 복원됨 - 데이터 새로고침 시작');
+        loadPosts();
+    }
+});
+
+// ============================================
 // STEP 2: 이벤트 리스너 등록
 // ============================================
 function initEventListeners() {
@@ -100,13 +125,12 @@ async function loadPosts() {
             return;
         }
 
+        // 7. 게시글 카드 생성 및 추가
         renderPosts(posts);
         
         // ✅ 다음 페이지 로딩 구현을 나중에 추가할 수 있음
         console.log(`📜 다음 커서: ${nextCursor}, 다음 페이지 있음? ${hasNext}`);
         
-        // 7. 게시글 카드 생성 및 추가
-        renderPosts(posts);
         
     } catch (error) {
         console.error('❌ 게시글 목록 로드 실패:', error);
