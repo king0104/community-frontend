@@ -95,6 +95,25 @@
                     >
                     <p class="helper-text">* helper text</p>
                 </div>
+                
+                <!-- ✨ 이용약관 동의 체크박스 추가! -->
+                <div class="form-group terms-group">
+                    <label class="checkbox-container">
+                        <input 
+                            type="checkbox" 
+                            id="agreeTerms" 
+                            name="agreeTerms"
+                            required
+                        >
+                        <span class="checkmark"></span>
+                        <span class="terms-text">
+                            <a href="http://localhost:8080/terms" target="_blank" class="terms-link">이용약관</a>
+                            및
+                            <a href="http://localhost:8080/privacy" target="_blank" class="terms-link">개인정보처리방침</a>에 동의합니다 *
+                        </span>
+                    </label>
+                </div>
+
 
                 <!-- 회원가입 버튼 -->
                 <button type="submit" class="btn-signup">회원가입</button>

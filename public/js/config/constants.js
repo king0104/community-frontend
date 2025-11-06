@@ -2,8 +2,10 @@
 // 설정 파일: 프로젝트 전체에서 사용하는 상수들
 // ============================================
 
-// API 기본 URL
-const API_BASE_URL = 'http://localhost:8080';
+// API 기본 URL - 환경에 따라 자동 설정
+const API_BASE_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:8080'
+    : 'http://3.37.111.87:8080';
 
 // API 엔드포인트
 const API_ENDPOINTS = {

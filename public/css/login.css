@@ -122,6 +122,34 @@ body {
     text-decoration: underline;
 }
 
+/* ✨ Footer 링크 (이용약관, 개인정보처리방침) */
+.footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #E5E5E5;
+}
+
+.footer-link {
+    font-size: 13px;
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-link:hover {
+    color: #7F6AEE;
+    text-decoration: underline;
+}
+
+.separator {
+    margin: 0 10px;
+    color: #E5E5E5;
+    font-size: 13px;
+}
+
 /* 반응형 디자인 */
 @media (max-width: 480px) {
     .login-box {

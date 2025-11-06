@@ -164,6 +164,21 @@ body {
     background-color: #5A42B0;
 }
 
+/* ✨ 이용약관 체크박스 스타일 */
+.terms-group {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    position: relative;
+    padding-left: 30px;
+    line-height: 1.5;
+}
+
 /* 로그인 링크 */
 .link-login {
     display: block;
