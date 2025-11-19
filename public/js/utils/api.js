@@ -42,13 +42,41 @@ function apiSignup(userData) {
     });
 }
 
+// /**
+//  * 이미지 업로드 API 호출
+//  * @param {File} file - 업로드할 이미지 파일
+//  * @returns {Promise} - fetch Promise
+//  */
+// function apiUploadImage(file) {
+//     const url = API_BASE_URL + API_ENDPOINTS.IMAGES;
+    
+//     // FormData 사용 (파일 업로드 시)
+//     const formData = new FormData();
+//     formData.append('file', file);
+    
+//     return fetch(url, {
+//         method: 'POST',
+//         body: formData  // Content-Type은 자동으로 설정됨
+//     });
+// }
+
 /**
- * 이미지 업로드 API 호출
+ * 이미지 업로드 API 호출 (Lambda + API Gateway 사용)
+ * 
+ * ⭐ 변경 사항: Spring Boot에서 Lambda로 이미지 업로드 엔드포인트 변경
+ * 
+ * 흐름:
+ * 1. 프론트엔드 → Lambda (이미지 파일 전송)
+ * 2. Lambda → S3 (이미지 저장)
+ * 3. Lambda → Spring Boot (메타데이터 저장, imageId 생성)
+ * 4. Lambda → 프론트엔드 (응답 반환)
+ * 
  * @param {File} file - 업로드할 이미지 파일
  * @returns {Promise} - fetch Promise
  */
 function apiUploadImage(file) {
-    const url = API_BASE_URL + API_ENDPOINTS.IMAGES;
+    // ⭐ Lambda API Gateway URL 사용
+    const url = LAMBDA_IMAGE_UPLOAD_URL;
     
     // FormData 사용 (파일 업로드 시)
     const formData = new FormData();

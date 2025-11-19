@@ -7,6 +7,9 @@ const API_BASE_URL = window.location.hostname === 'localhost'
     ? 'http://localhost:8080'
     : 'http://3.37.111.87:8080';
 
+// ⭐ Lambda 이미지 업로드 URL (추가!)
+const LAMBDA_IMAGE_UPLOAD_URL = 'https://xjzzbybx5h.execute-api.ap-northeast-2.amazonaws.com/upload';
+
 // API 엔드포인트
 const API_ENDPOINTS = {
     LOGIN: '/login',

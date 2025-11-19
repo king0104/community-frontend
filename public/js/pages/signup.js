@@ -144,25 +144,22 @@ function displayImagePreview(file) {
 async function uploadImage() {
     console.log('📤 이미지 업로드 시작');
     
-    // 이미지가 선택되지 않았으면 에러
     if (!selectedImageFile) {
         throw new Error('이미지가 선택되지 않았습니다.');
     }
     
     try {
-        // API 호출 (api.js의 함수 사용)
         const response = await apiUploadImage(selectedImageFile);
         
         if (!response.ok) {
             throw new Error('이미지 업로드 실패');
         }
         
-        // 응답 데이터 파싱 (JSON → JavaScript 객체)
         const data = await response.json();
         console.log('📥 이미지 업로드 응답:', data);
         
-        // 백엔드 응답 형식: { imageId: 1, imageUrl: "...", ... }
-        const imageId = data.imageId;
+        // ⭐ Lambda 응답 형식: { metadata: { imageId: 1, ... }, s3Url: "...", ... }
+        const imageId = data.metadata.imageId;  // ✅ 수정!
         console.log('✅ 이미지 업로드 완료. imageId:', imageId);
         
         return imageId;
