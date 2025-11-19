@@ -1,0 +1,41 @@
+# Node.js 관련
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json  # npm ci가 이미 사용하므로
+
+# Git 관련
+.git/
+.gitignore
+
+# IDE 관련
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS 관련
+.DS_Store
+Thumbs.db
+
+# 환경 변수
+.env
+.env.local
+.env.*.local
+
+# 로그
+logs/
+*.log
+
+# 테스트
+coverage/
+.nyc_output/
+
+# Docker 관련
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# 문서
+README.md
+*.md

@@ -178,19 +178,19 @@ function renderPosts(posts) {
 // ============================================
 /**
  * 하나의 게시글 데이터로 HTML 카드 요소를 생성
- * 
+ *
  * 백엔드 응답 구조 (PostListResponse):
  * {
  *   id: 1,
  *   title: "제목",
  *   viewCount: 123,
  *   likeCount: 10,
- *   commentCount: 5,
+ *   commentCount: 5,  // ✅ 백엔드에서 post.getPostStats().getCommentCount()로 제공
  *   createdAt: "2021-01-01T00:00:00",
  *   memberNickname: "작성자",
  *   memberProfileImageUrl: "https://..."
  * }
- * 
+ *
  * @param {Object} post - 게시글 데이터 객체 (PostListResponse)
  * @returns {HTMLElement} - 생성된 카드 요소
  */
@@ -198,25 +198,26 @@ function createPostCard(post) {
     // 1. 카드 컨테이너 생성
     const card = document.createElement('div');
     card.className = 'post-card';
-    
+
     // 2. 카드 클릭 시 상세 페이지로 이동
     card.addEventListener('click', function() {
         window.location.href = `post-detail.html?id=${post.id}`;
     });
-    
+
     // 3. 카드 내용 생성
+    // ✅ 백엔드에서 제공하는 commentCount를 그대로 사용
     card.innerHTML = `
         <h3 class="post-title">${escapeHtml(post.title)}</h3>
-        
+
         <div class="post-stats">
             <span class="stat-item">좋아요 ${post.likeCount || 0}</span>
             <span class="stat-item">댓글 ${post.commentCount || 0}</span>
             <span class="stat-item">조회수 ${post.viewCount || 0}</span>
         </div>
-        
+
         <div class="post-footer">
             <div class="post-author">
-                ${post.memberProfileImageUrl 
+                ${post.memberProfileImageUrl
                     ? `<img src="${post.memberProfileImageUrl}" alt="프로필" class="author-profile" />`
                     : '<div class="author-profile"></div>'
                 }
@@ -225,7 +226,7 @@ function createPostCard(post) {
             <span class="post-date">${formatDate(post.createdAt)}</span>
         </div>
     `;
-    
+
     return card;
 }
 
