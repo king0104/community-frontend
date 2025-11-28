@@ -24,7 +24,7 @@ const API_BASE_URL = window.location.hostname === 'localhost'
  * 
  * ⚠️ 주의: 배포 후 반드시 실제 API Gateway URL로 변경해야 합니다!
  */
-const LAMBDA_IMAGE_UPLOAD_URL = 'https://xjzzbybx5h.execute-api.ap-northeast-2.amazonaws.com/upload/';
+const LAMBDA_IMAGE_UPLOAD_URL = 'https://k5cue50tkd.execute-api.ap-northeast-2.amazonaws.com/upload/image-upload-deploy';
 
 // API 엔드포인트
 const API_ENDPOINTS = {
