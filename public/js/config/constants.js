@@ -7,8 +7,24 @@ const API_BASE_URL = window.location.hostname === 'localhost'
     ? 'http://localhost:8080'
     : 'http://3.37.111.87:8080';
 
+// ============================================
 // ⭐ Lambda 이미지 업로드 URL (추가!)
-const LAMBDA_IMAGE_UPLOAD_URL = 'https://xjzzbybx5h.execute-api.ap-northeast-2.amazonaws.com/upload';
+// ============================================
+/**
+ * Lambda + API Gateway를 통한 이미지 업로드 엔드포인트
+ * 
+ * 설정 방법:
+ * 1. AWS Console → API Gateway → 해당 API 선택
+ * 2. Stages → prod (또는 배포 스테이지) 선택
+ * 3. Invoke URL 복사
+ * 4. 아래 URL을 복사한 URL + /upload 로 변경
+ * 
+ * 예시:
+ * const LAMBDA_IMAGE_UPLOAD_URL = 'https://abc123xyz.execute-api.ap-northeast-2.amazonaws.com/prod/upload';
+ * 
+ * ⚠️ 주의: 배포 후 반드시 실제 API Gateway URL로 변경해야 합니다!
+ */
+const LAMBDA_IMAGE_UPLOAD_URL = 'https://your-api-gateway-id.execute-api.ap-northeast-2.amazonaws.com/prod/upload';
 
 // API 엔드포인트
 const API_ENDPOINTS = {
@@ -17,7 +33,8 @@ const API_ENDPOINTS = {
     LOGOUT: '/logout',
     REFRESH: '/api/v1/auth/refresh',
     POSTS: '/api/v1/posts',
-    IMAGES: '/api/v1/images',
+    IMAGES: '/api/v1/images',                    // Spring Boot 직접 업로드 (기존 방식, Deprecated)
+    IMAGES_METADATA: '/api/v1/images/metadata',  // Lambda가 호출하는 메타데이터 저장 API
     MEMBER_ME: '/api/v1/members/me'
 };
 

@@ -321,7 +321,7 @@ async function handleSubmit(event) {
 - 백엔드 API가 imageId를 받기 때문
 - 이미지 업로드 → imageId 획득 → 게시글 작성
 
-회원가입과 동일한 패턴!
+회원가입과 동일한 패턴!     
 - 회원가입: 프로필 이미지 업로드 → imageId → 회원가입
 - 게시글 작성: 게시글 이미지 업로드 → imageId → 게시글 작성
 */
