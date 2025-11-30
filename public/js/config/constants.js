@@ -5,8 +5,7 @@
 // API 기본 URL - 환경에 따라 자동 설정
 const API_BASE_URL = window.location.hostname === 'localhost'
     ? 'http://localhost:8080'
-    : 'http://3.37.111.87:8080';
-
+    : 'http://community-alb-1339831481.ap-northeast-2.elb.amazonaws.com';
 // ============================================
 // ⭐ Lambda 이미지 업로드 URL (추가!)
 // ============================================
