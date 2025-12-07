@@ -63,11 +63,30 @@ function initEventListeners() {
     btnCreatePost.addEventListener('click', function() {
         window.location.href = 'create-post';
     });
-    
-    // 프로필 아이콘 클릭
-    const userProfile = document.getElementById('userProfile');
-    userProfile.addEventListener('click', function() {
-        window.location.href = 'profile';
+
+    // 프로필 아이콘 클릭 - 드롭다운 토글
+    const profileIcon = document.querySelector('.profile-icon');
+    const profileDropdown = document.getElementById('profileDropdown');
+
+    profileIcon.addEventListener('click', function(event) {
+        event.stopPropagation(); // 이벤트 전파 방지
+        profileDropdown.classList.toggle('show');
+    });
+
+    // 드롭다운 외부 클릭 시 닫기
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.user-profile')) {
+            profileDropdown.classList.remove('show');
+        }
+    });
+
+    // 로그아웃 버튼 클릭
+    const btnLogout = document.getElementById('btnLogout');
+    btnLogout.addEventListener('click', function(event) {
+        event.stopPropagation(); // 이벤트 전파 방지
+        if (confirm('로그아웃 하시겠습니까?')) {
+            logout();
+        }
     });
 }
 

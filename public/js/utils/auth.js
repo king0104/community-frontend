@@ -37,9 +37,33 @@ function isLoggedIn() {
 }
 
 /**
- * 로그아웃 처리
+ * 로그아웃 처리 (백엔드 API 호출)
  */
-function logout() {
-    removeAccessToken();
-    window.location.href = '/login';
+async function logout() {
+    try {
+        // 백엔드 로그아웃 API 호출
+        const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.LOGOUT}`, {
+            method: 'POST',
+            credentials: 'include', // 쿠키 전송 (refresh token)
+            headers: {
+                'access': getAccessToken() || '' // access token 헤더 전송
+            }
+        });
+
+        // 응답 상태와 상관없이 로컬 토큰 삭제
+        removeAccessToken();
+
+        if (response.ok) {
+            console.log('✅ 로그아웃 성공');
+        } else {
+            console.warn('⚠️ 로그아웃 API 호출 실패, 로컬 토큰만 삭제');
+        }
+    } catch (error) {
+        console.error('❌ 로그아웃 API 호출 오류:', error);
+        // 에러가 발생해도 로컬 토큰은 삭제
+        removeAccessToken();
+    } finally {
+        // 로그인 페이지로 이동
+        window.location.href = '/login';
+    }
 }
