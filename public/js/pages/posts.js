@@ -175,20 +175,20 @@ async function loadPosts() {
  */
 function renderPosts(posts) {
     console.log('🎨 게시글 카드 생성 시작');
-    
+
     // 게시글 목록 컨테이너 가져오기
     const postsList = document.getElementById('postsList');
-    
+
     // 배열의 각 게시글에 대해 반복
     // 백엔드의 for문이나 stream().forEach()와 같음
     posts.forEach(post => {
         // 각 게시글마다 카드 생성
         const postCard = createPostCard(post);
-        
+
         // 컨테이너에 추가
         postsList.appendChild(postCard);
     });
-    
+
     console.log(`✅ ${posts.length}개의 게시글 카드 생성 완료`);
 }
 

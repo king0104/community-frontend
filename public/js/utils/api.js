@@ -175,13 +175,14 @@ function apiGetPostDetail(postId) {
 
 /**
  * 게시글 작성 API 호출
- * 
+ *
  * 백엔드: PostController.createPost()
  * @PostMapping("/api/v1/posts")
- * 
+ *
  * @param {Object} postData - 게시글 데이터
  * @param {string} postData.title - 제목 (최대 100자)
  * @param {string} postData.content - 내용
+ * @param {Array<number>} postData.imageIds - 이미지 ID 목록
  * @returns {Promise<Response>} - fetch Promise
  */
 function apiCreatePost(postData) {

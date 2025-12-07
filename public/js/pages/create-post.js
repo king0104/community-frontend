@@ -275,7 +275,7 @@ async function handleSubmit(event) {
     const postData = {
         title: title,
         content: content,
-        imageId: uploadedImageId  // 이미지가 없으면 null
+        imageIds: uploadedImageId ? [uploadedImageId] : []  // 배열 형식으로 변경
     };
     
     console.log('📦 게시글 데이터:', postData);
