@@ -109,7 +109,7 @@ async function loadPostDetail() {
         // 5. 전역 변수에 저장
         currentMemberId = myInfo.memberId;
         postAuthorId = postData.memberId;  // ✅ 백엔드에서 추가한 필드
-        isLiked = postData.isLiked || false;  // ✅ 좋아요 여부 저장
+        isLiked = postData.isLikedByMe || false;  // ✅ 좋아요 여부 저장 (백엔드: isLikedByMe)
 
         console.log('🔍 비교: 내 ID =', currentMemberId, ', 작성자 ID =', postAuthorId);
 
