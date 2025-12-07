@@ -246,6 +246,143 @@ function apiDeletePost(postId) {
     });
 }
 
+/**
+ * 좋아요 추가 API 호출
+ *
+ * 백엔드: PostLikeController.likePost()
+ * @PostMapping("/api/v1/posts/{postId}/likes")
+ *
+ * @param {number} postId - 게시글 ID
+ * @returns {Promise<Response>} - fetch Promise
+ */
+function apiLikePost(postId) {
+    const url = API_BASE_URL + API_ENDPOINTS.POSTS + `/${postId}/likes`;
+    const token = getAccessToken();
+
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'access': token
+        }
+    });
+}
+
+/**
+ * 좋아요 취소 API 호출
+ *
+ * 백엔드: PostLikeController.unlikePost()
+ * @DeleteMapping("/api/v1/posts/{postId}/likes")
+ *
+ * @param {number} postId - 게시글 ID
+ * @returns {Promise<Response>} - fetch Promise
+ */
+function apiUnlikePost(postId) {
+    const url = API_BASE_URL + API_ENDPOINTS.POSTS + `/${postId}/likes`;
+    const token = getAccessToken();
+
+    return fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'access': token
+        }
+    });
+}
+
+/**
+ * 댓글 목록 조회 API 호출
+ *
+ * 백엔드: CommentController.getComments()
+ * @GetMapping("/api/v1/posts/{postId}/comments")
+ *
+ * @param {number} postId - 게시글 ID
+ * @returns {Promise<Response>} - fetch Promise
+ */
+function apiGetComments(postId) {
+    const url = API_BASE_URL + API_ENDPOINTS.POSTS + `/${postId}/comments`;
+    const token = getAccessToken();
+
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            'access': token
+        }
+    });
+}
+
+/**
+ * 댓글 작성 API 호출
+ *
+ * 백엔드: CommentController.createComment()
+ * @PostMapping("/api/v1/posts/{postId}/comments")
+ *
+ * @param {number} postId - 게시글 ID
+ * @param {Object} commentData - 댓글 데이터
+ * @param {string} commentData.content - 댓글 내용
+ * @param {number|null} commentData.parentId - 부모 댓글 ID (대댓글인 경우)
+ * @returns {Promise<Response>} - fetch Promise
+ */
+function apiCreateComment(postId, commentData) {
+    const url = API_BASE_URL + API_ENDPOINTS.POSTS + `/${postId}/comments`;
+    const token = getAccessToken();
+
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'access': token
+        },
+        body: JSON.stringify(commentData)
+    });
+}
+
+/**
+ * 댓글 수정 API 호출
+ *
+ * 백엔드: CommentController.updateComment()
+ * @PatchMapping("/api/v1/posts/{postId}/comments/{commentId}")
+ *
+ * @param {number} postId - 게시글 ID
+ * @param {number} commentId - 댓글 ID
+ * @param {Object} updateData - 수정할 데이터
+ * @param {string} updateData.content - 댓글 내용
+ * @returns {Promise<Response>} - fetch Promise
+ */
+function apiUpdateComment(postId, commentId, updateData) {
+    const url = API_BASE_URL + API_ENDPOINTS.POSTS + `/${postId}/comments/${commentId}`;
+    const token = getAccessToken();
+
+    return fetch(url, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'access': token
+        },
+        body: JSON.stringify(updateData)
+    });
+}
+
+/**
+ * 댓글 삭제 API 호출
+ *
+ * 백엔드: CommentController.deleteComment()
+ * @DeleteMapping("/api/v1/posts/{postId}/comments/{commentId}")
+ *
+ * @param {number} postId - 게시글 ID
+ * @param {number} commentId - 댓글 ID
+ * @returns {Promise<Response>} - fetch Promise
+ */
+function apiDeleteComment(postId, commentId) {
+    const url = API_BASE_URL + API_ENDPOINTS.POSTS + `/${postId}/comments/${commentId}`;
+    const token = getAccessToken();
+
+    return fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'access': token
+        }
+    });
+}
+
 // ============================================
 // 💡 학습 노트: 이미지 업로드 방식 변경
 // ============================================
