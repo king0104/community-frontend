@@ -173,45 +173,65 @@ async function loadPostData() {
 // ============================================
 /**
  * 서버에서 받은 게시글 데이터로 폼의 입력 필드를 채움
- * 
+ *
  * 백엔드 비유:
  * - 수정 페이지에서 기존 데이터를 보여주는 것과 같음
  * - form.setTitle(post.getTitle())
- * 
+ *
  * @param {Object} postData - 게시글 상세 데이터
  * @param {number} postData.id - 게시글 ID
  * @param {string} postData.title - 제목
  * @param {string} postData.content - 내용
- * @param {Array} postData.images - 이미지 목록
+ * @param {Array} postData.images - 이미지 목록 (ID + URL)
+ * @param {Array} postData.imageIds - 이미지 ID 목록 (하위 호환성)
+ * @param {Array} postData.imageUrls - 이미지 URL 목록 (하위 호환성)
  */
 function fillFormWithData(postData) {
     console.log('📝 폼에 데이터 채우기 시작');
-    
+
     // 1. 제목 입력 필드에 기존 제목 넣기
     const titleInput = document.getElementById('title');
     titleInput.value = postData.title || '';
-    
+
     // 2. 내용 입력 필드에 기존 내용 넣기
     const contentInput = document.getElementById('content');
     contentInput.value = postData.content || '';
-    
+
     // 3. 기존 이미지가 있으면 표시
+    // 방법 1: images 배열 사용 (ID + URL 포함) - 권장
     if (postData.images && postData.images.length > 0) {
-        console.log('🖼️ 기존 이미지 있음:', postData.images);
-        
+        console.log('🖼️ 기존 이미지 있음 (images):', postData.images);
+
         // 기존 이미지 ID 목록 저장
         existingImageIds = postData.images.map(img => img.id);
-        
+
         // 첫 번째 이미지를 미리보기로 표시
         const firstImage = postData.images[0];
         showImagePreview(firstImage.url);
-        
+
         // 파일명 표시
         const fileName = document.getElementById('fileName');
         fileName.textContent = '기존 이미지가 있습니다';
     }
-    
+    // 방법 2: imageIds와 imageUrls 사용 (하위 호환성)
+    else if (postData.imageIds && postData.imageIds.length > 0) {
+        console.log('🖼️ 기존 이미지 있음 (imageIds):', postData.imageIds);
+
+        // 기존 이미지 ID 목록 저장
+        existingImageIds = postData.imageIds;
+
+        // imageUrls가 있으면 첫 번째 이미지를 미리보기로 표시
+        if (postData.imageUrls && postData.imageUrls.length > 0) {
+            showImagePreview(postData.imageUrls[0]);
+        }
+
+        // 파일명 표시
+        const fileName = document.getElementById('fileName');
+        fileName.textContent = '기존 이미지가 있습니다';
+    }
+
     console.log('✅ 폼 데이터 채우기 완료');
+    console.log('💾 저장된 기존 이미지 ID:', existingImageIds);
 }
 
 // ============================================

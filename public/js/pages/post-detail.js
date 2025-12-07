@@ -570,6 +570,9 @@ function handleEditComment(commentId) {
     // 원본 내용 저장 (취소 시 복원용)
     commentItem.setAttribute('data-original-content', currentContent);
 
+    // 수정 모드 강조 클래스 추가
+    commentItem.classList.add('editing');
+
     // 댓글 내용을 textarea로 변경
     commentContentElement.innerHTML = `
         <textarea class="comment-edit-textarea" rows="3">${currentContent}</textarea>
@@ -577,8 +580,10 @@ function handleEditComment(commentId) {
 
     // 수정/삭제 버튼을 저장/취소 버튼으로 변경
     commentActionsElement.innerHTML = `
-        <button class="btn-comment-save" onclick="saveEditComment(${commentId})">저장</button>
-        <button class="btn-comment-cancel" onclick="cancelEditComment(${commentId})">취소</button>
+        <div class="comment-edit-actions">
+            <button class="btn-comment-cancel" onclick="cancelEditComment(${commentId})">취소</button>
+            <button class="btn-comment-save" onclick="saveEditComment(${commentId})">저장</button>
+        </div>
     `;
 
     // textarea에 포커스
@@ -654,6 +659,9 @@ function cancelEditComment(commentId) {
 
     // 원본 내용 가져오기
     const originalContent = commentItem.getAttribute('data-original-content');
+
+    // 수정 모드 강조 클래스 제거
+    commentItem.classList.remove('editing');
 
     // 원래 댓글 내용으로 복원
     commentContentElement.textContent = originalContent;
