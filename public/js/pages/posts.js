@@ -236,10 +236,9 @@ function createPostCard(post) {
 
         <div class="post-footer">
             <div class="post-author">
-                ${post.memberProfileImageUrl
-                    ? `<img src="${post.memberProfileImageUrl}" alt="프로필" class="author-profile" />`
-                    : '<div class="author-profile"></div>'
-                }
+                <img src="${post.memberProfileImageUrl || DEFAULT_PROFILE_IMAGE}"
+                     alt="프로필"
+                     class="author-profile" />
                 <span class="author-name">${escapeHtml(post.memberNickname || '익명')}</span>
             </div>
             <span class="post-date">${formatDate(post.createdAt)}</span>

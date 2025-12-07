@@ -177,7 +177,7 @@ function renderPostDetail(postData) {
     
     // 작성자 프로필 이미지
     const authorProfile = document.getElementById('authorProfile');
-    authorProfile.src = postData.memberProfileImageUrl || '/images/default-profile.png';
+    authorProfile.src = postData.memberProfileImageUrl || DEFAULT_PROFILE_IMAGE;
     
     // 작성자 닉네임
     const authorName = document.getElementById('authorName');
@@ -525,7 +525,7 @@ function renderComments(comments) {
         <div class="comment-item" data-comment-id="${comment.id}">
             <div class="comment-header">
                 <div class="comment-author">
-                    <img src="${comment.memberProfileImageUrl || '/images/default-profile.png'}"
+                    <img src="${comment.memberProfileImageUrl || DEFAULT_PROFILE_IMAGE}"
                          alt="프로필"
                          class="comment-profile">
                     <span class="comment-nickname">${comment.memberNickname}</span>

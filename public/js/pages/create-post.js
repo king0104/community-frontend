@@ -201,9 +201,9 @@ async function uploadImage() {
         
         const data = await response.json();
         console.log('📥 이미지 업로드 응답:', data);
-        
-        // ⭐ Lambda 응답 형식: { metadata: { imageId: 1, ... }, s3Url: "...", ... }
-        const imageId = data.metadata.imageId;  // ✅ 수정!
+
+        // ⭐ Lambda 응답 형식: { imageId: 1, imageUrl: "...", fileName: "...", ... }
+        const imageId = data.imageId;  // ✅ 직접 imageId 사용!
         console.log('✅ 이미지 업로드 완료. imageId:', imageId);
         
         return imageId;

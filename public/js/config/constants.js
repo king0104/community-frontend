@@ -25,6 +25,9 @@ const API_BASE_URL = window.location.hostname === 'localhost'
  */
 const LAMBDA_IMAGE_UPLOAD_URL = 'https://k5cue50tkd.execute-api.ap-northeast-2.amazonaws.com/upload/image-upload-deploy';
 
+// 기본 이미지 URL
+const DEFAULT_PROFILE_IMAGE = '/images/default-profile.svg';
+
 // API 엔드포인트
 const API_ENDPOINTS = {
     LOGIN: '/login',
