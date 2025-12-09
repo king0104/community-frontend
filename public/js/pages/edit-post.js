@@ -365,8 +365,8 @@ async function handleSubmit(event) {
     console.log('✅ 입력값 검증 통과');
     
     // 3. 새 이미지가 있으면 먼저 업로드
-    let imageIdsToSend = existingImageIds; // 기본값: 기존 이미지 ID 사용
-    
+    let imageIdsToSend = null; // 기본값: null (이미지 변경 없음)
+
     if (selectedImageFile) {
         try {
             console.log('📤 새 이미지 업로드 중...');
@@ -378,15 +378,19 @@ async function handleSubmit(event) {
             return;
         }
     }
-    
+
     // 4. 게시글 수정 API 호출
     console.log('📤 게시글 수정 요청 중...');
-    
+
     const updateData = {
         title: title,
-        content: content,
-        imageIds: imageIdsToSend
+        content: content
     };
+
+    // 새 이미지가 있을 때만 imageIds 포함
+    if (imageIdsToSend !== null) {
+        updateData.imageIds = imageIdsToSend;
+    }
     
     console.log('📦 수정 데이터:', updateData);
     
