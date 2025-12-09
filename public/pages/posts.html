@@ -33,6 +33,10 @@
             <!-- JavaScript가 동적으로 게시글 카드를 생성해서 여기에 넣음 -->
         </div>
 
+        <!-- 🎯 무한 스크롤 센티널 (스크롤 감지용 요소) -->
+        <!-- Intersection Observer가 이 요소를 감시하여 화면에 보이면 다음 페이지 로드 -->
+        <div id="scrollSentinel" style="height: 20px;"></div>
+
         <!-- 로딩 표시 (데이터 로드 중) -->
         <div class="loading" id="loading" style="display: none;">
             <p>게시글을 불러오는 중...</p>

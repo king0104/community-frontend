@@ -1,5 +1,5 @@
 // ============================================
-// 게시글 상세 페이지 JavaScript (수정/삭제 버튼 표시 로직 추가)
+// 게시글 상세 페이지 JavaScript (수정/삭제 버튼 표시 로직 추가 + 댓글 무한 스크롤)
 // ============================================
 
 // 전역 변수
@@ -9,33 +9,43 @@ let postAuthorId = null;      // ✅ 추가: 게시글 작성자 ID
 let isLiked = false;          // ✅ 추가: 좋아요 여부 (true = 좋아요 누름, false = 안 누름)
 
 // ============================================
+// 댓글 무한 스크롤 상태 관리
+// ============================================
+let currentCommentCursor = null;  // 현재 댓글 커서
+let hasMoreComments = true;       // 더 불러올 댓글이 있는지
+let isLoadingComments = false;    // 현재 댓글 로딩 중인지
+
+// ============================================
 // 페이지 로드 시 실행
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ 게시글 상세 페이지 로드');
-    
+
     // 1. 로그인 확인
     if (!isLoggedIn()) {
         alert('로그인이 필요합니다.');
         window.location.href = '/login';
         return;
     }
-    
+
     // 2. URL에서 게시글 ID 가져오기
     currentPostId = getPostIdFromUrl();
-    
+
     if (!currentPostId) {
         alert('잘못된 접근입니다.');
         window.location.href = '/posts';
         return;
     }
-    
+
     console.log('📝 게시글 ID:', currentPostId);
-    
+
     // 3. 이벤트 리스너 등록
     initEventListeners();
-    
-    // 4. 게시글 데이터 불러오기 (핵심!)
+
+    // 4. 댓글 무한 스크롤 초기화
+    initInfiniteScrollForComments();
+
+    // 5. 게시글 데이터 불러오기 (핵심!)
     loadPostDetail();
 });
 
@@ -353,6 +363,58 @@ function updateLikeButton() {
 }
 
 // ============================================
+// ✅ 댓글 무한 스크롤 초기화
+// ============================================
+/**
+ * 댓글 무한 스크롤 기능 초기화
+ *
+ * Intersection Observer API 사용:
+ * - 센티널 요소가 화면에 보이는지 감지
+ * - 보이면 자동으로 다음 페이지 댓글 로드
+ *
+ * 작동 원리:
+ * 1. 사용자가 스크롤하여 댓글 목록 하단에 도달
+ * 2. commentScrollSentinel 요소가 화면에 보임
+ * 3. Observer가 감지하여 콜백 실행
+ * 4. loadComments(false) 호출 → 다음 페이지 로드
+ */
+function initInfiniteScrollForComments() {
+    console.log('🔄 댓글 무한 스크롤 초기화');
+
+    // 센티널 요소 가져오기
+    const sentinel = document.getElementById('commentScrollSentinel');
+
+    if (!sentinel) {
+        console.error('❌ commentScrollSentinel 요소를 찾을 수 없습니다.');
+        return;
+    }
+
+    // Intersection Observer 설정
+    const options = {
+        root: null,           // viewport 사용
+        rootMargin: '100px',  // 하단 100px 전에 미리 로드
+        threshold: 0          // 요소가 조금이라도 보이면 감지
+    };
+
+    // Observer 콜백 함수
+    const callback = (entries) => {
+        entries.forEach(entry => {
+            // 센티널이 화면에 보이고, 더 불러올 댓글이 있고, 로딩 중이 아닐 때
+            if (entry.isIntersecting && hasMoreComments && !isLoadingComments) {
+                console.log('🎯 댓글 센티널 감지 → 다음 페이지 로드');
+                loadComments(false); // 다음 페이지 로드
+            }
+        });
+    };
+
+    // Observer 생성 및 감시 시작
+    const observer = new IntersectionObserver(callback, options);
+    observer.observe(sentinel);
+
+    console.log('✅ 댓글 무한 스크롤 활성화됨');
+}
+
+// ============================================
 // 💡 학습 노트: 권한 확인 로직
 // ============================================
 /*
@@ -448,56 +510,90 @@ async function handleCreateComment() {
 }
 
 // ============================================
-// ✅ 댓글 목록 불러오기
+// ✅ 댓글 목록 불러오기 (무한 스크롤 지원)
 // ============================================
 /**
  * 댓글 목록 API 호출 및 렌더링
  *
- * 백엔드 비유:
- * GET /api/v1/posts/{postId}/comments
+ * 🆕 무한 스크롤 지원:
+ * - isInitial = true: 첫 페이지 로드 (목록 초기화)
+ * - isInitial = false: 다음 페이지 로드 (기존 목록에 추가)
  *
- * 흐름:
- * 1. API 호출
- * 2. 응답 데이터 파싱
- * 3. 댓글 목록 렌더링
+ * 백엔드 비유:
+ * GET /api/v1/posts/{postId}/comments?cursor={cursor}&size={size}
+ *
+ * @param {boolean} isInitial - 첫 페이지 로드 여부
  */
-async function loadComments() {
-    console.log('📡 댓글 목록 요청');
+async function loadComments(isInitial = true) {
+    console.log(`📡 댓글 목록 요청 (${isInitial ? '첫 페이지' : '다음 페이지'})`);
+
+    // 1. 중복 로딩 방지
+    if (isLoadingComments) {
+        console.log('⏸️ 이미 댓글 로딩 중입니다.');
+        return;
+    }
+
+    // 2. 더 이상 불러올 댓글이 없으면 중단
+    if (!isInitial && !hasMoreComments) {
+        console.log('✋ 더 이상 불러올 댓글이 없습니다.');
+        return;
+    }
 
     try {
-        // 1. API 호출
-        const response = await apiGetComments(currentPostId);
+        // 3. 로딩 상태 시작
+        isLoadingComments = true;
 
-        // 2. 응답 확인
+        // 4. 첫 페이지 로드 시 상태 초기화
+        if (isInitial) {
+            currentCommentCursor = null;
+            hasMoreComments = true;
+        }
+
+        // 5. API 호출 (커서 전달)
+        const response = await apiGetComments(currentPostId, currentCommentCursor);
+
+        // 6. 응답 확인
         if (!response.ok) {
             throw new Error('댓글 목록 조회 실패');
         }
 
-        // 3. JSON 데이터 파싱
-        const comments = await response.json();
-        console.log('📥 댓글 목록:', comments);
+        // 7. JSON 데이터 파싱 (CommentListPageResponse 구조)
+        const data = await response.json();
+        console.log('📥 댓글 데이터:', data);
 
-        // 4. 댓글 목록 렌더링
-        renderComments(comments);
+        // 8. 구조 분해
+        const comments = data.comments || [];
+        const nextCursor = data.nextCursor;
+        const hasNext = data.hasNext;
 
-        // 5. ✅ 댓글 수 업데이트 (실제 댓글 개수로)
-        const commentCountElement = document.getElementById('commentCount');
-        commentCountElement.textContent = comments.length;
-        console.log('✅ 댓글 수 업데이트:', comments.length);
+        // 9. 댓글 목록 렌더링
+        renderComments(comments, isInitial);
 
-        console.log('✅ 댓글 목록 로드 완료');
+        // 10. 무한 스크롤 상태 업데이트
+        currentCommentCursor = nextCursor;
+        hasMoreComments = hasNext;
+
+        console.log(`✅ ${comments.length}개 댓글 로드 완료`);
+        console.log(`📜 다음 커서: ${nextCursor}, 더 있음? ${hasNext}`);
 
     } catch (error) {
         console.error('❌ 댓글 목록 로드 실패:', error);
         // 댓글 목록 로드 실패는 치명적이지 않으므로 에러 메시지만 출력
+    } finally {
+        // 11. 로딩 상태 종료
+        isLoadingComments = false;
     }
 }
 
 // ============================================
-// ✅ 댓글 목록 렌더링
+// ✅ 댓글 목록 렌더링 (무한 스크롤 지원)
 // ============================================
 /**
  * 댓글 데이터를 화면에 표시
+ *
+ * 🆕 무한 스크롤 지원:
+ * - isInitial = true: 기존 목록 지우고 새로 렌더링
+ * - isInitial = false: 기존 목록에 추가
  *
  * CommentResponse 구조:
  * {
@@ -508,20 +604,23 @@ async function loadComments() {
  *   "memberProfileImageUrl": "https://...",
  *   "createdAt": "2024-01-01T12:00:00"
  * }
+ *
+ * @param {Array} comments - 댓글 데이터 배열
+ * @param {boolean} isInitial - 첫 페이지 로드 여부
  */
-function renderComments(comments) {
-    console.log('🎨 댓글 렌더링 시작, 개수:', comments.length);
+function renderComments(comments, isInitial = true) {
+    console.log(`🎨 댓글 렌더링 시작 (${isInitial ? '초기화' : '추가'}), 개수: ${comments.length}`);
 
     const commentsList = document.getElementById('commentsList');
 
-    // 댓글이 없는 경우
-    if (!comments || comments.length === 0) {
+    // 첫 페이지 로드 시 - 댓글이 없는 경우
+    if (isInitial && (!comments || comments.length === 0)) {
         commentsList.innerHTML = '<p class="no-comments">첫 댓글을 남겨보세요!</p>';
         return;
     }
 
-    // 댓글 목록 HTML 생성
-    commentsList.innerHTML = comments.map(comment => `
+    // 댓글 HTML 생성
+    const commentsHtml = comments.map(comment => `
         <div class="comment-item" data-comment-id="${comment.id}">
             <div class="comment-header">
                 <div class="comment-author">
@@ -541,6 +640,14 @@ function renderComments(comments) {
             ` : ''}
         </div>
     `).join('');
+
+    // 첫 페이지 로드: 기존 목록 지우고 새로 렌더링
+    // 추가 로드: 기존 목록에 추가
+    if (isInitial) {
+        commentsList.innerHTML = commentsHtml;
+    } else {
+        commentsList.insertAdjacentHTML('beforeend', commentsHtml);
+    }
 
     console.log('✅ 댓글 렌더링 완료');
 }

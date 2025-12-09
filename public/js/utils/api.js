@@ -290,16 +290,27 @@ function apiUnlikePost(postId) {
 }
 
 /**
- * 댓글 목록 조회 API 호출
+ * 댓글 목록 조회 API 호출 (커서 기반 페이지네이션)
  *
  * 백엔드: CommentController.getComments()
  * @GetMapping("/api/v1/posts/{postId}/comments")
  *
+ * 커서 기반 페이지네이션:
+ * - cursor: 마지막으로 본 댓글 ID
+ * - size: 가져올 댓글 개수 (기본 20개)
+ *
  * @param {number} postId - 게시글 ID
+ * @param {number|null} cursor - 커서 (없으면 첫 페이지)
+ * @param {number} size - 페이지 크기
  * @returns {Promise<Response>} - fetch Promise
  */
-function apiGetComments(postId) {
-    const url = API_BASE_URL + API_ENDPOINTS.POSTS + `/${postId}/comments`;
+function apiGetComments(postId, cursor = null, size = 20) {
+    // URL 파라미터 구성
+    let url = API_BASE_URL + API_ENDPOINTS.POSTS + `/${postId}/comments?size=${size}`;
+    if (cursor) {
+        url += `&cursor=${cursor}`;
+    }
+
     const token = getAccessToken();
 
     return fetch(url, {
